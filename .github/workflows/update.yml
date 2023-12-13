@@ -19,7 +19,8 @@ jobs:
         env:  
           PAT: ${{ secrets.PAT }}  
         run: |  
-          for repo in $(curl -s -H "Authorization: token $PAT" https://api.github.com/user/repos | jq -r '.[].name' | grep 'test-template-repo'); do  
+          for repo in $(curl -s -H "Authorization: token $PAT" https://api.github.com/user/repos | jq -r '.[].name' | grep 'test-template-repo'); do 
+            echo "Updating repository: $repo"  
             git clone https://$PAT@github.com/tahsinac36/$repo  
             cd $repo  
             git pull https://$PAT@github.com/tahsinac36/$repo main  
