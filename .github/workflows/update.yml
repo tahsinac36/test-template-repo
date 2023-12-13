@@ -1,0 +1,26 @@
+name: Update Repositories  
+  
+on:  
+  push:  
+    branches:  
+      - main  
+  
+jobs:  
+  update-repositories:  
+    runs-on: ubuntu-latest  
+    steps:  
+      - name: Checkout template repository  
+        uses: actions/checkout@v2  
+        with:  
+          ref: main  
+          repository: tahsinac36/test-template-repo 
+  
+      - name: Update repositories  
+        run: |  
+          for repo in $(curl -s https://api.github.com/orgs/tahsinac/repos | jq -r '.[].name' | grep '/test-template-repo'); do  
+            git clone https://github.com/tahsinac/$repo  
+            cd $repo  
+            git pull origin main  
+            git push  
+            cd ..  
+          done 
