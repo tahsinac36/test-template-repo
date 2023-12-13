@@ -17,7 +17,7 @@ jobs:
   
       - name: Update repositories  
         run: |  
-          for repo in $(curl -s https://api.github.com/tahsinac36/repos | jq -r '.[] | select(.name | contains("test-template-rep")) | .name'); do
+          for repo in $(curl -s https://api.github.com/user/repos | jq -r '.[] | select(.name | contains("test-template-rep")) | .name'); do
             git clone https://github.com/tahsinac36/$repo
             cd $repo
             git pull origin main
