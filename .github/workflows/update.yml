@@ -19,13 +19,11 @@ jobs:
         env:  
           PAT: ${{ secrets.PAT }}  
         run: |  
-          for repo in $(curl -s -H "Authorization: token $PAT" https://api.github.com/user/repos | jq -r '.[].name' | grep 'test-template-repo'); do  
-            eval "$(ssh-agent -s)"  
-            ssh-add ~/.ssh/id_rsa
-            git clone git@github.com:tahsinac36/$repo.git 
+          for repo in $(curl -s -H "Authorization: token $PAT" https://api.github.com/user/repos | jq -r '.[].name' | grep '<template-repo-name>'); do  
+            git clone https://$PAT@github.com/tahsinac36/$repo  
             cd $repo  
-            git pull origin main  
+            git pull https://$PAT@github.com/tahsinac36/$repo main  
             git push  
             cd ..  
-          done  
+          done   
  
